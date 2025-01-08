@@ -43,15 +43,18 @@ public class Network {
     *  If the given name is already a user in this network, does nothing and returns false;
     *  Otherwise, creates a new user with the given name, adds the user to this network, and returns true. */
     public boolean addUser(String name) {
-        if (this.userCount == this.users.length){
+        if (name == null) {
+            return false;
+        }
+        if (userCount == users.length){
             return false;
         }
         else if (getUser(name) != null){
             return false;
         }
         else {
-            User one = new User(name);
-            this.users[this.userCount+1] = one;
+            this.users[this.userCount] = new User(name);
+            userCount++;
         }
         return true;
     }
@@ -60,6 +63,12 @@ public class Network {
      *  If any of the two names is not a user in this network,
      *  or if the "follows" addition failed for some reason, returns false. */
     public boolean addFollowee(String name1, String name2) {
+        if (name1 == null || name2 == null){
+            return false;
+        }
+        if (name1.equals(name2)){
+            return false;
+        }
         if (getUser(name1) == null || getUser(name2) == null){
             return false;
         }
@@ -71,10 +80,16 @@ public class Network {
      *  the user that has the maximal mutual number of followees as the user with the given name. */
     public String recommendWhoToFollow(String name) {
         int max = 0;
+        User other = getUser(name);
+        if (other == null) {
+            return null;
+        }
         String name1 = "";
-        for (int i = 0; i < users.length; i++){
-            User other = getUser(name);
-            if (other.countMutual(this.users[i]) > max){
+        for (int i = 0; i < userCount; i++){
+            if (users[i].getName().equals(other.getName())){
+                continue;
+            }
+            if (other.countMutual(users[i]) > max){
                 max = other.countMutual(this.users[i]);
                 name1 = this.users[i].getName();
             }
