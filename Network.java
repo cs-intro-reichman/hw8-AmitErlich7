@@ -72,6 +72,9 @@ public class Network {
         if (getUser(name1) == null || getUser(name2) == null){
             return false;
         }
+        if (getUser(name1).follows(name2)){
+            return false;
+        }
         getUser(name1).addFollowee(name2);
         return true;
     }
@@ -100,9 +103,10 @@ public class Network {
     /** Computes and returns the name of the most popular user in this network: 
      *  The user who appears the most in the follow lists of all the users. */
     public String mostPopularUser() {
-        String popular = "";
+        String popular = "null";
         int max = 0; 
         int counter;
+
         for (int i = 0; i < userCount; i++) {
             counter = 0;
             for (int j = 0; j < userCount; j++) {
