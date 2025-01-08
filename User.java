@@ -69,6 +69,9 @@
         if (!this.follows(name)){
             return false;
         }
+        if (name == null) {
+            return false;
+        }
         int index = -1;
         for (int i = 0; i < fCount; i++) {
             String name1 = follows[i];
