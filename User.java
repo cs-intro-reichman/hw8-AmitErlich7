@@ -43,11 +43,9 @@
 
     /** If this user follows the given name, returns true; otherwise returns false. */
     public boolean follows(String name) {
-        if (name == null){
-            return false;
-        }
-        for (int i = 0; i < this.getfFollows().length; i++) {
-            String name1 = this.getfFollows()[i];
+        name = name.toLowerCase();
+        for (int i = 0; i < fCount; i++) {
+            String name1 = this.getfFollows()[i].toLowerCase();
             if (name1.equals(name)){
                 return true;
             }
@@ -57,10 +55,10 @@
     /** Makes this user follow the given name. If successful, returns true. 
      *  If this user already follows the given name, or if the follows list is full, does nothing and returns false; */
     public boolean addFollowee(String name) {
-        if (this.follows(name) || this.fCount == this.follows.length){
+        if (this.follows(name) || this.fCount == 10){
             return false;
         }
-        this.follows[this.fCount + 1] = name;
+        this.follows[this.fCount] = name;
         this.fCount++;
         return true;
     }
@@ -68,14 +66,11 @@
     /** Removes the given name from the follows list of this user. If successful, returns true.
      *  If the name is not in the list, does nothing and returns false. */
     public boolean removeFollowee(String name) {
-        if (name == null){
-            return false;
-        }
         if (!this.follows(name)){
             return false;
         }
         int index = 0;
-        for (int i = 0; i < this.getfFollows().length; i++) {
+        for (int i = 0; i < fCount; i++) {
             String name1 = this.getfFollows()[i];
             if (name1.equals(name)){
                 index = i;
